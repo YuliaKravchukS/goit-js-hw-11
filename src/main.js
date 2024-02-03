@@ -17,7 +17,7 @@ function onFormSubmit(e) {
     e.preventDefault();
     const value = e.target.elements.valueGallery.value;
     // getUrl(value)
-    getUrl(value).then(data =>{
+    getUrl(value).then(data => {
         renderImages(data);
   });
     e.target.reset();
@@ -35,23 +35,38 @@ function getUrl(clientValue) {
     });
     const url = `${BASE_URL}${ENDPOINT}?${searchParams}`;
     
-    return fetch(url).then(data => data.json());
+    return fetch(url).then(data => data.json()).then(data => data.hits); ;
 }
+
+
 
 function imageTemplate(img) {
-    return `<div class="card">
-    <div class="img-container"
+    const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = img;
+    console.log(webformatURL);
+    return `<li>
+    <div class="card">
+    <div class="img-container">
     <img
-    src="${img.hits.webformatURL}"
-    alt="…"
+    src=${webformatURL}
+    alt= ${ tags }
     width="360"
     height="200"
+    />
     </div>
-    
+    <div class="img-comments">
+    <p>Likes ${ likes }</p>
+    <p>Views ${ views }</p>
+    <p>Comments ${ comments }</p>
+    <p>Downloads ${downloads}</p>
+    </div>
+    </div>
+    </li>
     `;
 }
-
-function renderImages(img) {
-    const markup = imageTemplate(img);
-    refs.galleryEl.insertAdjacentHTML('beforeend', markup);
+function imagesTemplate(images) {
+    return images.map(imageTemplate).join('');
+}
+function renderImages(images) {
+    const markup = imagesTemplate(images) ;
+    refs.galleryEl.innerHTML = markup;
 };

@@ -29,10 +29,11 @@
 
 .wrap-form {
   margin: 0 auto;
+  width: 100vw;
 }
 
 .form {
-  margin: 0 auto;
+  margin: 0 auto 30px;
 }
 input {
   outline: none;
@@ -59,4 +60,20 @@ button {
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.04em;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 360px;
+  height: 300px;
+  border: 1px solid #242424;
+}
+.img-comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
