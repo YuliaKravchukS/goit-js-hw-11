@@ -9,57 +9,31 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const refs = {
     formEl: document.querySelector('.form'),
     galleryEl: document.querySelector('.gallery'),
-    
+    loader: document.querySelector('.loader')
 }
-const images = [
-  {
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
-    description: 'Hokkaido Flower',
-  },
-  {
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677_1280.jpg',
-    description: 'Container Haulage Freight',
-    },
-]
+
+
  refs.formEl.addEventListener('submit', onFormSubmit);
-
-//     const markup = images.map(({preview, original, description}) => {
-//         return `<li class="gallery-item2">
-//  <div>
-//      <div class="gallery-item">
-//           <a class="gallery-link" href="${original}">
-//             <img class="gallery-image" src="${preview}" alt="${description}" />
-//           </a>
-//      </div>
-//  </div>
-// </li>`}).join('');
-//     refs.galleryEl.insertAdjacentHTML('beforeend',markup);
-
 
 
 function onFormSubmit(e) {
     e.preventDefault();
-     refs.galleryEl.remove;
+    refs.galleryEl.innerHTML = '';
     const value = e.target.elements.valueGallery.value;
    
     getUrl(value).then(data => {
-        if (data.length === 0) {
+        if (data.length > 0 & value !== '') {
+            
+            renderImages(data);
+            let simpleLightBox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 }).refresh();
+        } else {
             iziToast.error({
                 message: 'Sorry, there are no images matching your search query. Please try again!',
-    position: 'center',
-})
+                position: 'topCenter',
+            })
         }
-        renderImages(data);
-            gallery.open();
-    console.log(gallery);
     });
-    
+        
     e.target.reset();
 };
 
@@ -97,7 +71,7 @@ function imageTemplate(img) {
    <a href="${largeImageURL}">
                     <img src="${webformatURL}" alt="${tags}" />
                 </a>
-    </div>
+   </div>
     <div class="img-comments">
     <p class="describe">Likes ${ likes }</p>
     <p class="describe">Views ${ views }</p>
@@ -117,6 +91,4 @@ function renderImages(images) {
     const markup = imagesTemplate(images) ;
     refs.galleryEl.innerHTML = markup;
 };
-     let gallery = new SimpleLightbox('.img-container a');
 
-gallery.on('show.simplelightbox', function () {});

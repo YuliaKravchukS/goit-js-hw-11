@@ -2,30 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      http-equiv="content-security-policy"
-      content="default-src 'none'; script-src 'self';
-  connect-src 'self'; img-src 'self';
-  style-src 'self' 'sha256-CwE3Bg0VYQOIdNAkbB/Btdkhul49qZuwgNCMPgNY5zw=';"
-    />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vanilla App Template</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <div class="wrap-form">
-      <form class="form">
-        <input
-          type="text"
-          name="valueGallery"
-          id="valueGallery"
-          placeholder="Search images..."
-        />
-        <button>Search</button>
-      </form>
+    <div class="container">
+      <div class="wrap-form">
+        <form class="form">
+          <input
+            type="text"
+            name="valueGallery"
+            id="valueGallery"
+            placeholder="Search images..."
+          />
+          <button class="form-button" type="submit">Search</button>
+        </form>
+      </div>
+      <span class="loader">Loading images, please wait...</span>
+      <ul class="gallery"></ul>
     </div>
-    <ul class="gallery"></ul>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
