@@ -13,20 +13,22 @@ const refs = {
 }
 
 
- refs.formEl.addEventListener('submit', onFormSubmit);
-
+refs.formEl.addEventListener('submit', onFormSubmit);
+refs.loader.style.visibility = 'hidden';
 
 function onFormSubmit(e) {
     e.preventDefault();
     refs.galleryEl.innerHTML = '';
     const value = e.target.elements.valueGallery.value;
-    refs.loader.style.visibility = 'visible';
+    if (value !== '') {
+        refs.loader.style.visibility = 'visible';
+    }        
     getUrl(value).then(data => {
         if (data.length > 0 & value !== '') {
             refs.loader.style.visibility = 'hidden';
             renderImages(data);
-            let simpleLightBox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 }).refresh();
         } else {
+            refs.loader.style.visibility = 'hidden';
             iziToast.error({
                 message: 'Sorry, there are no images matching your search query. Please try again!',
                 position: 'topCenter',
@@ -54,7 +56,7 @@ function getUrl(clientValue) {
             if (!data.ok) {
                 throw new Error(data.status);
             }
-            return data.json()
+            return data.json();
         })
         .then(data => data.hits);
 
@@ -68,10 +70,10 @@ function imageTemplate(img) {
     return `<li>
     <div class="card">
     <div class="img-container">
-   <a href="${largeImageURL}">
-                    <img src="${webformatURL}" alt="${tags}" />
-                </a>
-   </div>
+    <a href="${largeImageURL}">
+    <img src="${webformatURL}" alt="${tags}" />
+    </a>
+    </div>
     <div class="img-comments">
     <p class="describe">Likes ${ likes }</p>
     <p class="describe">Views ${ views }</p>
@@ -90,5 +92,6 @@ function imagesTemplate(images) {
 function renderImages(images) {
     const markup = imagesTemplate(images) ;
     refs.galleryEl.innerHTML = markup;
+    let simpleLightBox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 }).refresh();
 };
 
