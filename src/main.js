@@ -31,7 +31,7 @@ function onFormSubmit(e) {
             refs.loader.style.visibility = 'hidden';
             iziToast.error({
                 message: 'Sorry, there are no images matching your search query. Please try again!',
-                position: 'topCenter',
+                position: 'topRight',
             })
         }
     });
