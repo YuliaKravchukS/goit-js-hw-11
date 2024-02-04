@@ -20,10 +20,10 @@ function onFormSubmit(e) {
     e.preventDefault();
     refs.galleryEl.innerHTML = '';
     const value = e.target.elements.valueGallery.value;
-   
+    refs.loader.style.visibility = 'visible';
     getUrl(value).then(data => {
         if (data.length > 0 & value !== '') {
-            
+            refs.loader.style.visibility = 'hidden';
             renderImages(data);
             let simpleLightBox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 }).refresh();
         } else {
